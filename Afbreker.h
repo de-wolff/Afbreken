@@ -18,22 +18,12 @@
 
 namespace Afbreken
 {
-/*
-  struct Bestemmingen
-  {
-    byte array[128][8];
-    byte woordlengte;
-    vector<byte> afbreekstack;
-    int afbreekstackptr;
-    int afbreekstackmax;  //afbreekstackmax:0..127;
-  };
-  */
   typedef struct
   {
     byte woordlengte;
     vector<byte> afbreekstack;
     int afbreekstackptr;
-    int afbreekstackmax;  //afbreekstackmax:0..127;
+    int afbreekstackmax;
   } AfbreekParams;
 
 

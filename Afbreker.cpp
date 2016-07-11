@@ -13,129 +13,8 @@ namespace Afbreken
   using namespace std;
 
 
-
-#if 0
-
-  var positie_bestemmingen:array[1,127,0,7] of byte;
-      woordlengte:byte;
-      afbreekstack:array[1,127] of byte;
-      afbreekstackptr,afbreekstackmax:0,127;
-
-
-  int zoekBoom(WoordDeel wd, int start, const basischeck *&boom)
-
-  /*Zoek een woorddeel op in een trie en geef de bijbehorende waarde indien gevonden, anders 0.*/
-
-  {
-      int n,i;
-      long l;
-      char *p;
-
-    l=1;
-    int result=0;
-    i=start+byte(wd[0]);
-    while (boom[i].basis+long(wd[l])>=0) and (l<wd.length()) do
-      {
-        n=trie[i].basis+long(wd[l]);
-        inc(l);
-        if (n>high(trie)) or (trie[n].check<>trie[i].basis) then
-          exit;
-        i=n;
-      };
-
-    n=trie[i].basis+byte(__);
-    if (n>high(trie)) or (trie[n].check<>n) then
-      exit;
-    zoekBoom=trie[n].basis;
-  };
-
-  function zoek_kop(const wd:woorddeel;var kop_ok:boolean):koppen;
-
-  var v:integer;
-
-  {
-    v=zoekBoom(wd,koppenBoom_start,koppenBoom);
-    kop_ok=v<0;
-    if kop_ok then
-      zoek_kop=koppen(-v-1);
-  };
-
-  function zoek_kern(const WoordDeel &wd, kern_ok:boolean):kernen;
-
-  var v:integer;
-
-  {
-    v=zoekBoom(wd,kernenBoom_start,kernenBoom);
-    kern_ok=v<0;
-    if kern_ok then
-      zoek_kern=kernen(-v-1);
-  };
-
-  bool zoek_staart(const WoordDeel &wd, bool &staart_ok)
-  {
-
-    int v;
-    v=zoekBoom(wd,staartenBoom_start,staartenBoom);
-    staart_ok=v<0;
-    if (staart_ok)
-      return Staarten(-v-1);
-  };
-
-
-  bool zoek_zwart_woord(const WoordDeel &wd)
-
-  /*Kijk of dit woorddeel in de lijst van zwarte lettergreepcombinaties
-   voorkomt.*/
-  {
-
-    byte l,h,m;
-    bool  klgl;
-    byte i;
-    Letter c;
-
-    l=low(zwarte_woorden);
-    h=high(zwarte_woorden);
-    do
-      {
-      m=zwarte_woorden((byte(h)+byte(l)) div 2);
-      klgl=true;
-
-      for i=1 to wd.lengte do
-        {
-          c=zwarte_woorden_letters[m,i];
-          if wd.letters[i]<>c then
-            {
-              klgl=wd.letters[i]<c;
-              break;
-            };
-        };
-      if klgl then
-        h=m
-      else
-        l=succ(m);
-      }
-    while (l!=h)
-
-    bool result=true;
-    for i=low(zwarte_woorden_letters[l]) to high(zwarte_woorden_letters[l]) do
-      {
-        if (i<wd.length())
-          c=wd.letters[i]
-        else
-          c=__;
-        if (c!=zwarte_woorden_letters[l,i])
-          {
-            return false;
-          };
-      };
-  };
-
-#endif
-
   void Afbreker::afbreekpositie(byte bestemming, Bestemming *pPositieBestemming)
   {
-//    writeln('Van ',basis,' naar ',bestemming);
-//    inc(positie_bestemmingen[basis,0]);
     pPositieBestemming->Add(bestemming);
   };
 
@@ -244,73 +123,21 @@ namespace Afbreken
   {
 
   byte positie;
-//  byte l,h;
-//  byte i;
-//  byte queue[16];
   set<byte> ingevoegd;
 
     positie=0;
     ingevoegd.insert(ingevoegd.end(),0);
- //   l=0;
- //   h=1;
- //   queue[0]=0;
     Bestemming HulpBestemming;
     PositieBestemmingen.Add(&HulpBestemming);
     afbreekposities(wd,positie, PositieBestemmingen);
-#if 0
-    while (l != h)
-      {
-        /*Verwijder*/
-        positie=queue[l++];
-        if (l>15) l=0;
-        afbreekposities(wd,positie, PositieBestemmingen);
-        for (i=0 ; i< PositieBestemming[0]; i++)
-        {
-          if (ingevoegd.find(PositieBestemmingen[i]) == ingevoegd.end())
-          {
-            /*Voeg in op stack.*/
-            queue[h]=PositieBestemming[i];
-            ingevoegd.insert(ingevoegd.end(),queue[h++]);
-            if (h>15) h=0;
-           }
-        }
-        PositieBestemmingen.Add(PositieBestemming);
-      }
-#endif
   }
-/*
-  bool geen_zwarte_lijst(WoordDeel wd)
-  {
-    WoordDeel z;
-    byte i,j,van,naar;
 
-    for i=afbreekstackptr downto 2 do
-      {
-        if (z.size() != 0)
-        {
-          z.insert(z.end(), __);
-        }
-        van=afbreekstack[i-1];
-        naar=afbreekstack[i]-1;
-        for (j=van; van < naar; van++)
-          {
-            z.insert(wd[j]);
-          };
-        if (zoek_zwart_woord(z))
-        {
-          return false;
-        }
-      }
-    return true;
-  }
-*/
   bool Afbreker::bepaal_afbreking(const WoordDeel &wd, byte pos, Bestemmingen &PositieBestemmingen, AfbreekParams &params)
   {
 
     byte i;
     params.afbreekstack.insert(params.afbreekstack.end(), pos);
     bool result = false;
-//    if geen_zwarte_lijst(wd) then
       if (pos>params.woordlengte)
         {
           result=true;
@@ -345,63 +172,17 @@ namespace Afbreken
         iter->Remove(wd.size());
       }
     PositieBestemmingen.erase(PositieBestemmingen.begin());
-#if 0
-    for( i=0; i < wd.size(); i++)
-      {
-        if (PositieBestemmingen[i][0]>=2)
-          {
-            wissel=high_wissel;
-            /*In principe eindigt een lettergreep niet op een dubbele klinker,
-             behalve in woorden als menuutje, verwissel daarom de posities
-             als de eerste positie naar een medeklinker die volgt op een
-             dubbele klinker wijst.*/
-            if ((Letters::IsMedeKlinker(wd[PositieBestemmingen[i][1]])) &&
-                (!((wd[PositieBestemmingen[i][1]]==_t)) &&
-                    (wd[PositieBestemmingen[i][2]]==_j)) &&
-               (PositieBestemmingen[i][1]+1==PositieBestemmingen[i][2]) &&
-               (Letters::IsDubbelKlinker(wd[PositieBestemmingen[i][1]-1])))
-              {
-                wissel=2;
-              }
-            /*In woorden als bloeien, zaaien, enz., verkiezen we bloei-en boven
-             bloe-i-en. Zorg daarom dat de tweelettergrepige variant vooraan staat.*/
-            if ((PositieBestemmingen[i][1]+1==PositieBestemmingen[i][2]) &&
-               (wd[PositieBestemmingen[i][1]]==_i) &&
-                (Letters::IsDubbelKlinker(wd[PositieBestemmingen[i][1]-1])))
-              {
-                wissel=2;
-                /*Indien de gewenste wissel dood loopt, kiezen we de eerstvolgende
-                 positie als wissel. Dit voorkomt dat in woorden als nooit, zaait,
-                 de lettergreep "nooi" de eerste keus is en omdat een losse t geen
-                 lettergreep kan zijn, het oorspronkelijke noo-it alsnog de eerste
-                 keus wordt.*/
-                while ((PositieBestemmingen[PositieBestemmingen[i][wissel]][0]==0) &&
-                      (PositieBestemmingen[i][0]>wissel)) wissel++;
-              };
-/*
-            if (wissel!=high_wissel)
-              {
-                t=PositieBestemmingen[i][wissel];
-                PositieBestemmingen[i][wissel]=PositieBestemmingen[i][1];
-                PositieBestemmingen[i][1]=t;
-              }
-              */
-          }
-      }
-#endif
   }
 
   bool Afbreker::breek_af(const WoordDeel &wd, Bestemmingen &PositieBestemmingen)
   {
 
-//     fillchar(positie_bestemmingen,sizeof(positie_bestemmingen),0);
      AfbreekParams params;
      Bestemming bestemming;
      PositieBestemmingen.Add(&bestemming);
      PositieBestemmingen.Add(&bestemming);
      bepaal_afbreekpunten(wd, PositieBestemmingen);
      correcties(wd, PositieBestemmingen);
-//     return bepaal_afbreking(wd,1, PositieBestemmingen, params);
      return true;
   }
 
