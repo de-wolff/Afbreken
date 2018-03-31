@@ -30,9 +30,9 @@ namespace Afbreken
   {
 //    Bestemmingen localBestemmingen(PositieBestemmingen);
     Bestemming *pPositieBestemming = PositieBestemmingen.Last();
-    Kernen_e kern;
-    Staarten_e  staart;
-    Koppen_e kop;
+    Kernen_e kern = kn_a;
+    Staarten_e  staart = st_b;
+    Koppen_e kop = kp_b;
     bool  kop_ok = false,kern_ok = false,staart_ok = false;
     WoordDeel kopwd, staartwd, kernwd;
     positie orgpos;
