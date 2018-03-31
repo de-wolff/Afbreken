@@ -13,7 +13,7 @@ namespace Afbreken
   using namespace std;
 
 
-  void Afbreker::afbreekpositie(byte bestemming, Bestemming *pPositieBestemming)
+  void Afbreker::afbreekpositie(positie bestemming, Bestemming *pPositieBestemming)
   {
     pPositieBestemming->Add(bestemming);
   };
@@ -26,7 +26,7 @@ namespace Afbreken
   delete pNextBestemming;\
 
 
-  positie Afbreker::afbreekposities(const WoordDeel &wd, byte pos, Bestemmingen &PositieBestemmingen)
+  positie Afbreker::afbreekposities(const WoordDeel &wd, positie pos, Bestemmingen &PositieBestemmingen)
   {
 //    Bestemmingen localBestemmingen(PositieBestemmingen);
     Bestemming *pPositieBestemming = PositieBestemmingen.Last();
@@ -35,7 +35,7 @@ namespace Afbreken
     Koppen_e kop;
     bool  kop_ok = false,kern_ok = false,staart_ok = false;
     WoordDeel kopwd, staartwd, kernwd;
-    byte orgpos;
+    positie orgpos;
     orgpos=pos;
     /*Bepaal de kop.*/
     // _MedeKlinkers.
@@ -122,8 +122,8 @@ namespace Afbreken
   void Afbreker::bepaal_afbreekpunten(const WoordDeel &wd, Bestemmingen &PositieBestemmingen)
   {
 
-  byte positie;
-  set<byte> ingevoegd;
+    Afbreken::positie positie;
+    set<Afbreken::positie> ingevoegd;
 
     positie=0;
     ingevoegd.insert(ingevoegd.end(),0);
@@ -132,10 +132,10 @@ namespace Afbreken
     afbreekposities(wd,positie, PositieBestemmingen);
   }
 
-  bool Afbreker::bepaal_afbreking(const WoordDeel &wd, byte pos, Bestemmingen &PositieBestemmingen, AfbreekParams &params)
+  bool Afbreker::bepaal_afbreking(const WoordDeel &wd, positie pos, Bestemmingen &PositieBestemmingen, AfbreekParams &params)
   {
 
-    byte i;
+	  positie i;
     params.afbreekstack.insert(params.afbreekstack.end(), pos);
     bool result = false;
       if (pos>params.woordlengte)

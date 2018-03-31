@@ -20,8 +20,8 @@ namespace Afbreken
 {
   typedef struct
   {
-    byte woordlengte;
-    vector<byte> afbreekstack;
+    positie woordlengte;
+    vector<positie> afbreekstack;
     int afbreekstackptr;
     int afbreekstackmax;
   } AfbreekParams;
@@ -34,10 +34,10 @@ namespace Afbreken
     bool breek_af(const WoordDeel &wd, Bestemmingen &PositieBestemmingen);
 
   private:
-    void afbreekpositie(byte bestemming, Bestemming *pPositieBestemming);
-    positie afbreekposities(const WoordDeel &wd, byte pos, Bestemmingen &PositieBestemmingen);
+    void afbreekpositie(positie bestemming, Bestemming *pPositieBestemming);
+    positie afbreekposities(const WoordDeel &wd, positie pos, Bestemmingen &PositieBestemmingen);
     void bepaal_afbreekpunten(const WoordDeel &wd, Bestemmingen &PositieBestemmingen);
-    bool bepaal_afbreking(const WoordDeel &wd, byte pos, Bestemmingen &PositieBestemmingen, AfbreekParams &params);
+    bool bepaal_afbreking(const WoordDeel & wd, positie pos, Bestemmingen & PositieBestemmingen, AfbreekParams & params);
     void correcties(const WoordDeel &wd, Bestemmingen &PositieBestemmingen);
 
 

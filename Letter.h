@@ -69,8 +69,7 @@ namespace Afbreken
     _ch
   } Letter;
 
-  typedef unsigned char byte;
-  typedef byte positie;
+  typedef size_t positie;
 
 
   typedef vector<Letter> WoordDeel;

@@ -63,7 +63,7 @@ namespace Afbreken
     i = 0;
     while (i < woord.length())
       {
-        unsigned int lengte = woord.length();
+        positie lengte = woord.length();
         letter1 = woord[i];
         letter2 = i + 1 < lengte ? woord[i + 1] : '0';
         letter3 = i + 2 < lengte ? woord[i + 2] : '0';
