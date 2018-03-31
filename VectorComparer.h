@@ -20,7 +20,7 @@ namespace Afbreken
   public:
     typedef _Compare key_compare;
 
-    bool operator ()(const vector<T> &item1, const vector<T> &item2)
+    bool operator ()(const vector<T> &item1, const vector<T> &item2) const
       {
       // return item1<item2;
       size_t i = 0;

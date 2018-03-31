@@ -17,10 +17,10 @@ namespace Afbreken
   {
   public:
 
-    bool operator ()(const T &item1, const T &item2)
-      {
+    bool operator ()(const T &item1, const T &item2) const
+    {
       return ((int)item1 < (int)item2);
-      }
+    }
 
   };
 
