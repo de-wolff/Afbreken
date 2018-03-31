@@ -92,20 +92,28 @@ namespace Afbreken
       return 0;
       }
 
-
-    /*Een lettergreep zonder staart is mogelijk...*/
-    UpdatePosition();
-
+    bool not_i = true;
+    positie i_pos = pos;
     /*Staart: 0 of meer medeklinkers, maar in sommige woorden wordt een i als
      medeklinker gebruikt (bijv. bloei).*/
-    if ((pos<wd.size()) && (wd[pos - 1]==_i))
+	
+    if ((pos<wd.size()) && (wd[pos]==_i))
     {
       staartwd.insert(staartwd.end(),wd[pos++]);
       staart=_Staarten.Find(staartwd,staart_ok);
       if ((staart_ok) && (_KernStaart.Find(staart, kern)))
       {
           UpdatePosition();
+          not_i = false;
       }
+    }
+    if (not_i)
+    {
+        positie new_pos = pos;
+        pos = i_pos;
+        /*Een lettergreep zonder staart is mogelijk...*/
+        UpdatePosition();
+        pos = new_pos;
     }
     while ((pos<wd.size()) && (Letters::IsMedeKlinker(wd[pos])))
     {
