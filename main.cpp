@@ -15,15 +15,14 @@
 using namespace Afbreken;
 
 
-void doe_woord(const string woord, const char *hyphen, ostream &str)
+void doe_woord(const string woord, const string &hyphen, ostream &str)
 {
-  set<positie> Hl;
   Afbreker afbreker;
   Bestemmingen bestemmingen;
   LetterUtil lu;
-  WoordDeel wd = lu.string2WoordDeel(woord, Hl);
+  WoordDeel wd = lu.string2WoordDeel(woord);
   afbreker.breek_af(wd, bestemmingen);
-  bestemmingen[0].Dump(wd, Hl, hyphen, str);
+  bestemmingen[0].Dump(woord, wd, hyphen, str);
 
 }
 
@@ -67,14 +66,14 @@ int main(int argc, const char * argv[]) {
       hyphen = getCmdOption(argv, argv + argc, "-k");
   }
   string myString;
-  char myChar;
+  unsigned char myChar;
   char line[256];
   while (!cin.eof())
   {
 
       int i = 0;
       cin.getline(line, 255);
-      myChar = line[i++];
+      myChar = (unsigned char)line[i++];
       while ((i < 255) && (myChar != '\0') )
       {
           myString.clear();

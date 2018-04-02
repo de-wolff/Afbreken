@@ -20,7 +20,7 @@ namespace Afbreken
     Bestemmingen();
     Bestemmingen(const Bestemmingen &src);
     Bestemmingen &operator =(const Bestemmingen &src);
-    void Dump(const WoordDeel &wd, set<positie>  &hoofdLetters, const char *hyphen, ostream &dest);
+    void Dump(const string &word, const WoordDeel &wd, const char *hyphen, ostream &dest);
     Bestemming *Add(const Bestemming *b);
     Bestemming *Last();
     Bestemming &operator[](size_t index);

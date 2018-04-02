@@ -56,11 +56,11 @@ namespace Afbreken
     }
     return _dummy;
   }
-  void Bestemmingen::Dump(const WoordDeel &wd, set<positie>  &hoofdLetters, const char *hyphen, ostream &dest)
+  void Bestemmingen::Dump(const string &word, const WoordDeel &wd, const char *hyphen, ostream &dest)
   {
     for (iterator i = begin(); i != end(); i++)
       {
-        i->Dump(wd, hoofdLetters, hyphen, dest);
+        i->Dump(word, wd, hyphen, dest);
       }
   }
 

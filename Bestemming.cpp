@@ -28,48 +28,28 @@ namespace Afbreken
     erase(pos);
   }
 
-  void Bestemming::Dump(const WoordDeel &wd, set<positie>  &hoofdLetters, const char *hyphen, ostream &dest)
+  void Bestemming::Dump(const string &woord, const WoordDeel &wd, const string &hyphen, ostream &dest)
   {
     size_t  j = 0;
     positie l = 0;
-    for (iterator i = begin(); i != end(); i++)
-      {
+	string::const_iterator iter = woord.begin();
+	for (iterator i = begin(); i != end(); i++)
+    {
+		positie curpos;
         while (j < *i)
           {
-            string str = LetterUtil::Letter2string(wd[j++]);
-            string::iterator iter;
-            for (iter=str.begin(); iter != str.end(); iter++)
+            positie pos = LetterUtil::Letter2size(wd[j++]);
+            for (curpos = 0; curpos < pos; curpos++)
               {
-                if (hoofdLetters.find(l++) != hoofdLetters.end())
-                  {
-                    dest <<  LetterUtil::NaarHoofdLetter(*iter);
-
-                  }
-                else
-                  {
-                    dest << *iter;
-                  }
+                    dest << *iter++;
               }
           }
         dest <<  hyphen;
-      }
-    while (j < wd.size())
-      {
-        string str = LetterUtil::Letter2string(wd[j++]);
-        string::iterator iter;
-        for (iter=str.begin(); iter != str.end(); iter++)
-          {
-            if (hoofdLetters.find(l++) != hoofdLetters.end())
-              {
-                dest <<  LetterUtil::NaarHoofdLetter(*iter);
-
-              }
-            else
-              {
-                dest << *iter;
-              }
-          }
-      }
+	}
+	while (iter != woord.end())
+	{
+		dest << *iter++;
+	}
   }
 
   positie Bestemming::operator[](positie pos)

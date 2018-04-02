@@ -44,19 +44,17 @@ namespace Afbreken
    later weer teruggezet worden omdat de conversieroutine een set teruggeeft
    met de posities die hoofdletter waren.*/
   WoordDeel
-  LetterUtil::string2WoordDeel(string str, set<positie> &HoofdLetters)
+  LetterUtil::string2WoordDeel(string str)
   {
     char letter1, letter2, letter3, letter4;
     unsigned int i;
     WoordDeel result;
     string woord;
-    HoofdLetters.clear();
     //Converteer woord naar kleine letters.
     for (i = 0; i < str.length(); i++)
       {
         char c = str[i];
-        if (NaarKleineLetter(c))
-          HoofdLetters.insert(HoofdLetters.end(), (positie)i);
+		NaarKleineLetter(c);
         woord += c;
       }
     // Maak er een woordddeel van.
@@ -65,6 +63,30 @@ namespace Afbreken
       {
         positie lengte = woord.length();
         letter1 = woord[i];
+		//Verwijder trema's.
+		switch (letter1)
+		{
+		case (char)0xC4: //Ä
+		case (char)0xE4: //ä
+			letter1 = 'a';
+			break;
+		case (char)0xCB: //Ë
+		case (char)0xEB: //ë
+			letter1 = 'e';
+			break;
+		case (char)0xCF: //Ï
+		case (char)0xEF: //ï
+			letter1 = 'i';
+			break;
+		case (char)0XD6: //Ö
+		case (char)0XF6: //ö
+			letter1 = 'o';
+			break;
+		case (char)0XDC: //Ü
+		case (char)0XFC: //ü
+			letter1 = 'u';
+			break;
+		};
         letter2 = i + 1 < lengte ? woord[i + 1] : '0';
         letter3 = i + 2 < lengte ? woord[i + 2] : '0';
         letter4 = i + 3 < lengte ? woord[i + 3] : '0';
@@ -216,25 +238,6 @@ namespace Afbreken
           }
         else
           {
-            //Verwijder trema's.
-            switch (letter1)
-              {
-            case (char) 0xE4: //ä
-              letter1 = 'a';
-              break;
-            case (char) 0xEB: //ë
-              letter1 = 'e';
-              break;
-            case (char) 0xEF: //ï
-              letter1 = 'i';
-              break;
-            case (char) 0XF6: //ö
-              letter1 = 'o';
-              break;
-            case (char) 0XFC: //ü
-              letter1 = 'u';
-              break;
-              };
             result.insert(result.end(), (Letter) ((char) _a + letter1 - 'a'));
             i++;
           }
@@ -242,6 +245,35 @@ namespace Afbreken
       }
     return result;
   }
+
+  positie LetterUtil::Letter2size(const Letter &l)
+  {
+	  switch (l)
+	  {
+	  case _aa:
+	  case _ai:
+	  case _au:
+	  case _ee:
+	  case _ei:
+	  case _eu:
+	  case _ie:
+	  case _ij:
+	  case _oe:
+	  case _oo:
+	  case _ou:
+	  case _ui:
+	  case _uu:
+	  case _ch:
+		  return 2;
+	  case _eeu:
+	  case _ieu:
+		  return 3;
+	  case _afbreek:
+		  return 0;
+	  }
+	  return 1;
+  }
+
   const char *LetterUtil::Letter2string(const Letter &l)
   {
         switch (l)

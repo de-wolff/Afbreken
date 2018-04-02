@@ -21,8 +21,8 @@ namespace Afbreken
   public:
     Bestemming();
     Bestemming(const Bestemming &src);
-    void Dump(const WoordDeel &wd, set<positie>  &hoofdLetters, const char *hyphen, ostream &dest);
-    bool Add(positie pos);
+	void Dump(const string & woord, const WoordDeel & wd, const string & hyphen, ostream & dest);
+	bool Add(positie pos);
     void Remove(positie pos);
     positie operator[](positie pos);
   };
